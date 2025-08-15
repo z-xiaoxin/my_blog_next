@@ -1,0 +1,50 @@
+@keyframes outSideRotate {
+  0% {
+    width: 216px;
+    transform: rotate(-90deg);
+  }
+  100% {
+    width: 100%;
+    transform: rotate(0);
+  }
+}
+
+@keyframes outSideRotateChild {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+.container {
+  transition: height 1s ease-out;
+  height: 216px;
+}
+
+.list-wrapper {
+  @apply absolute;
+  width: 216px;
+  transform: rotate(-90deg);
+  // animation: outSideRotate 0.6s ease-out forwards;
+
+  li {
+    width: 200px;
+    transform: rotate(90deg);
+    // animation: outSideRotateChild 0.6s ease-out forwards;
+  }
+}
+
+.container-vertical {
+  height: 672px;
+}
+
+.list-wrapper-vertical {
+  // @apply w-full;
+  animation: outSideRotate 1s ease-out forwards;
+  li {
+    @apply w-full;
+    animation: outSideRotateChild 1s ease-out forwards;
+  }
+}
