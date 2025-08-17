@@ -49,11 +49,13 @@ function ThemeSwitch({ initTheme }: { initTheme: "dark" | "light" }) {
           title={theme}
           className="translate-x-[60%] group-hover:translate-x-0 transition-all duration-300"
         >
-          {theme === "light" ? (
-            <Icon icon="ph:sun-bold" width={20} height={20} />
-          ) : (
-            <Icon icon="ph:moon-bold" width={20} height={20} />
-          )}
+          <div className="w-5 h-5">
+            {theme === "light" ? (
+              <Icon icon="ph:sun-bold" width={20} height={20} />
+            ) : (
+              <Icon icon="ph:moon-bold" width={20} height={20} />
+            )}
+          </div>
         </div>
       </div>
     </div>
