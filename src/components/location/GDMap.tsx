@@ -2,14 +2,14 @@
 
 import "./GDMap.scss";
 import "@amap/amap-jsapi-types";
-import { load as GDLoader } from "@amap/amap-jsapi-loader";
+// import { load as GDLoader } from "@amap/amap-jsapi-loader";
 import { useEffect, useRef, useState } from "react";
 import {
   ICityInfo,
   IGeoLocationInfo,
   IUseGDPluginFunc,
   IWeatherInfo,
-} from "../../../api/location/interface";
+} from "../../api/location/interface";
 import MapSearch from "./MapSearch";
 
 /**
@@ -85,52 +85,46 @@ function UserLocation() {
   const [geoLocationInfo, setGeoLocationInfo] = useState<IGeoLocationInfo>();
   const [mapCenter, setMapCenter] = useState<{ lng: number; lat: number }>();
   const [searchBarShow, setSearchBarShow] = useState(false);
-  const searchRef = useRef<HTMLInputElement>(null);
-
-  const loaderMap = () => {
-    GDLoader({
-      key: "de27e02aeca9784853cc36c1d18815d8",
-      version: "2.0",
-      plugins: [
-        "AMap.Geolocation",
-        "AMap.ToolBar",
-        "AMap.ControlBar",
-        "AMap.LngLat",
-        "AMap.Marker",
-        "AMap.CitySearch",
-        "AMap.DistrictSearch",
-        "AMap.Weather",
-        "AMap.PlaceSearch",
-        "AMap.Bounds",
-        "AMap.Circle",
-      ],
-    }).then(async (AMap) => {
-      const currentMap: AMap.Map = new AMap.Map("container", {
-        resizeEnable: true,
-        viewMode: "3D", //是否为3D地图模式
-      });
-      //添加控制罗盘控件，用来控制地图的旋转和倾斜
-      currentMap.addControl(new AMap.ControlBar());
-      currentMap.on("moveend", () => setMapCenter(currentMap.getCenter()));
-      currentMap.on("click", () => setSearchBarShow(false));
-      currentMap.on("dragstart", () => setSearchBarShow(false));
-
-      const GDMapProps = { AMap, mapInstance: currentMap };
-      GDMap.current = GDMapProps;
-
-      const geoLocationInfo = await getGeoLocation(GDMapProps);
-      setGeoLocationInfo(geoLocationInfo);
-      const cityInfo = await getCityInfo(GDMapProps);
-      setCurrentCityInfo(cityInfo);
-    });
-  };
 
   useEffect(() => {
-    const weakUpSearchBar = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
-        setSearchBarShow(true);
-        searchRef.current?.focus();
-      }
+    const loaderMap = async () => {
+      const GDLoader = (await import("@amap/amap-jsapi-loader")).load;
+
+      GDLoader({
+        key: "de27e02aeca9784853cc36c1d18815d8",
+        version: "2.0",
+        plugins: [
+          "AMap.Geolocation",
+          "AMap.ToolBar",
+          "AMap.ControlBar",
+          "AMap.LngLat",
+          "AMap.Marker",
+          "AMap.CitySearch",
+          "AMap.DistrictSearch",
+          "AMap.Weather",
+          "AMap.PlaceSearch",
+          "AMap.Bounds",
+          "AMap.Circle",
+        ],
+      }).then(async (AMap) => {
+        const currentMap: AMap.Map = new AMap.Map("container", {
+          resizeEnable: true,
+          viewMode: "3D", //是否为3D地图模式
+        });
+        //添加控制罗盘控件，用来控制地图的旋转和倾斜
+        currentMap.addControl(new AMap.ControlBar());
+        currentMap.on("moveend", () => setMapCenter(currentMap.getCenter()));
+        currentMap.on("click", () => setSearchBarShow(false));
+        currentMap.on("dragstart", () => setSearchBarShow(false));
+
+        const GDMapProps = { AMap, mapInstance: currentMap };
+        GDMap.current = GDMapProps;
+
+        const geoLocationInfo = await getGeoLocation(GDMapProps);
+        setGeoLocationInfo(geoLocationInfo);
+        const cityInfo = await getCityInfo(GDMapProps);
+        setCurrentCityInfo(cityInfo);
+      });
     };
 
     if (window) {
@@ -138,12 +132,9 @@ function UserLocation() {
         securityJsCode: "e9480128b279083ca981d98bfbc0e6fc",
       };
       loaderMap();
-      document.addEventListener("keydown", weakUpSearchBar);
     }
 
-    return () => {
-      document.removeEventListener("keydown", weakUpSearchBar);
-    };
+    return () => {};
   }, []);
 
   return (

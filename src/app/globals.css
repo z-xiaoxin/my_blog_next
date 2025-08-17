@@ -6,7 +6,7 @@ html {
 
 :root {
   --primary-bg: #ffffff;
-  --primary-cont: #171717;
+  --primary-content: #171717;
 }
 
 /* @theme inline {
@@ -25,12 +25,18 @@ html {
 
 .theme-dark {
   --primary-bg: #0a0a0a;
-  --primary-cont: #ededed;
+  --primary-content: #ededed;
+}
+
+@theme inline {
+  --color-primary-bg: var(--primary-bg);
+  --color-primary-content: var(--primary-content);
+  --shadow-normal: 0 0 5px 1px #66666666;
 }
 
 body {
   background: var(--primary-bg);
-  color: var(--primary-cont);
+  color: var(--primary-content);
   font-family: Arial, Helvetica, sans-serif;
   min-height: 100%;
   display: flex;

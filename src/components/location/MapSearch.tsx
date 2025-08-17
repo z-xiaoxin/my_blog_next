@@ -1,14 +1,20 @@
 "use client";
 
-import { KeyboardEventHandler, useRef, useState } from "react";
+import { KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import {
   ICityInfo,
   ILocationSearchRes,
   IPoiItem,
-} from "../../../api/location/interface";
+} from "../../api/location/interface";
+// import mapSearchStyle from "./mapSearch.module.scss";
+import "./mapSearch.scss";
+
 import { clickEventStop } from "@/utils/hander";
 import classNames from "classnames";
+// import classNamesBind from "classnames/bind";
 import { Icon } from "@iconify/react";
+
+// const mapSearchCls = classNamesBind.bind(mapSearchStyle);
 
 function MapSearch({
   GDProps,
@@ -23,14 +29,21 @@ function MapSearch({
   searchBarShow: boolean;
   setSearchBarShow: (param: boolean) => void;
 }>) {
-  const placeSearchIns = useRef(null);
+  const placeSearchIns = useRef<{ searchNearBy: (...args: any[]) => void }>(
+    null
+  );
   const searchRef = useRef<HTMLInputElement>(null);
   const [keywords, setKeywords] = useState("");
   const [searchResult, setSearchResult] = useState<ILocationSearchRes>();
+  const [searchLoading, setSearchLoading] = useState(false);
 
+  /**
+   * Description 搜索地点 调用 高德地图 api
+   * @param {any} props:{city:string;centerPoint:{lng:number;lat:number};keywords:string;}
+   * @returns {any}   */
   const searchPlace = (props: {
     city: string;
-    centerPoint: number[];
+    centerPoint: { lng: number; lat: number };
     keywords: string;
   }): Promise<ILocationSearchRes> => {
     const PlaceSearchOptions = {
@@ -45,16 +58,12 @@ function MapSearch({
       placeSearchIns.current = new GDProps.AMap.PlaceSearch(PlaceSearchOptions);
 
     return new Promise((resolve, reject) => {
-      console.log();
-
       if (placeSearchIns.current) {
         placeSearchIns.current.searchNearBy(
           props.keywords,
           props.centerPoint,
           20000,
           (status, result) => {
-            console.log(status, result);
-
             if (status === "complete" && result.info === "OK") {
               resolve(result);
             } else {
@@ -67,14 +76,22 @@ function MapSearch({
   };
 
   const onSearch = async () => {
-    const searchRes = await searchPlace({
-      city: currentCityInfo?.city ?? "",
-      centerPoint: mapCenter,
-      keywords,
-    });
+    setSearchLoading(true);
 
-    setSearchResult(searchRes);
-    setSearchResultMarker(searchRes.poiList.pois);
+    try {
+      const searchRes = await searchPlace({
+        city: currentCityInfo?.city ?? "",
+        centerPoint: mapCenter,
+        keywords,
+      });
+
+      setSearchResult(searchRes);
+      setSearchResultMarker(searchRes.poiList.pois);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSearchLoading(false);
+    }
   };
 
   const enterKeyToSearch: KeyboardEventHandler<HTMLInputElement> = (e) => {
@@ -86,7 +103,7 @@ function MapSearch({
     name: string
   ) => `<div class="flex flex-col items-center w-max">
     <i class="w-5 h-5 block border-[5px] shadow-md border-white bg-[#409eff] rounded-full"></i>
-    <p class="text-[14px] font-bold text-shadow-2xs">${name}</p>
+    <p class="text-[14px] font-bold text-shadow-2xs text-[#171717]">${name}</p>
   </div>`;
 
   const markerRemoveList = useRef<(() => void)[]>([]);
@@ -142,6 +159,23 @@ function MapSearch({
     setSearchBarShow(false);
   };
 
+  useEffect(() => {
+    const weakUpSearchBar = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        setSearchBarShow(true);
+        searchRef.current?.focus();
+      }
+    };
+
+    if (window) {
+      document.addEventListener("keydown", weakUpSearchBar);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", weakUpSearchBar);
+    };
+  }, []);
+
   return (
     <>
       {/* 搜索层 */}
@@ -154,7 +188,7 @@ function MapSearch({
               searchRef.current?.focus();
             }}
             className={classNames(
-              "absolute top-2 left-0 bg-white rounded-md z-20 p-2 transition-all duration-300 scale-75 origin-top-left hover:scale-100 cursor-pointer",
+              "absolute top-2 left-0 bg-primary-bg rounded-md z-20 p-2 transition-all duration-300 scale-75 origin-top-left hover:scale-100 cursor-pointer",
               searchBarShow
                 ? "opacity-0 pointer-events-none scale-100"
                 : "pointer-events-auto"
@@ -172,7 +206,7 @@ function MapSearch({
             {/* 搜索框 开始 */}
             <div
               onClick={clickEventStop}
-              className="w-full flex items-center justify-center pointer-events-auto bg-white rounded-md p-2 pl-3"
+              className="w-full flex items-center justify-center pointer-events-auto bg-primary-bg rounded-md p-2 pl-3"
             >
               <div className="flex-grow">
                 <input
@@ -197,7 +231,7 @@ function MapSearch({
 
             <div
               onClick={clickEventStop}
-              className="pointer-events-auto w-full bg-white rounded-md p-2 mt-2"
+              className="pointer-events-auto w-full bg-primary-bg rounded-md p-2 mt-2"
             >
               {/* {JSON.stringify(searchResult)} */}
               <div className="w-full leading-4 py-1 flex justify-end items-center px-2 pb-1 border-b-[1px] border-solid border-b-[#e1e1e1] mb-2">
@@ -215,17 +249,19 @@ function MapSearch({
                 </div>
                 {/* 清除按钮 结束 */}
               </div>
-              <ul className="w-full ">
-                {searchResult?.poiList.pois.map((i) => (
-                  <li
-                    className="w-full h-8 p-2 hover:bg-[#409eff22] transition-all text-[14px] leading-4 rounded-md cursor-pointer"
-                    key={i.id}
-                    onClick={() => poiSelect(i)}
-                  >
-                    {i.name}
-                  </li>
-                ))}
-              </ul>
+              {searchLoading ? (
+                <div className="w-full py-10 flex justify-center items-center">
+                  <Icon icon="eos-icons:loading" width={30} height={30} />
+                </div>
+              ) : (
+                <ul className={classNames("map_search-result-list")}>
+                  {searchResult?.poiList.pois.map((i) => (
+                    <li key={i.id} onClick={() => poiSelect(i)}>
+                      {i.name}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </div>

@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@layer components {
+  .map_search-result-list {
+    @apply w-full;
+    // width: 100%;
+    li {
+      @apply w-full h-8 p-2 hover:bg-[#409eff22] transition-all text-[14px] leading-4 rounded-md cursor-pointer;
+    }
+  }
+}
