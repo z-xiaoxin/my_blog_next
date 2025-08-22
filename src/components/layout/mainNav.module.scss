@@ -6,8 +6,9 @@
   background: var(--primary-color);
   color: white;
   padding: 12px;
-  transition: all 0.3s, scale 0.1s;
+  transition: all 0.3s, transform 0.1s;
   cursor: pointer;
+
   .nav-item-icon {
     width: 40px;
     height: 40px;
@@ -15,20 +16,21 @@
   }
 
   &:active {
-    scale: 0.95;
+    transform: scale(0.95);
   }
 }
 
 .nav-item_active {
   padding: 18px;
   .nav-item-icon {
-    @apply scale-120;
+    scale: 1.2;
   }
 }
 
-.nav-item-active_near {
+.nav-item_active_near {
   padding: 14px;
+
   .nav-item-icon {
-    @apply scale-110;
+    scale: 1.1;
   }
 }

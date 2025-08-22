@@ -51,7 +51,7 @@ function MainNav() {
                 mCls("nav-item"),
                 index === hoverIndex ? mCls("nav-item_active") : "",
                 hoverIndex + 1 === index || hoverIndex - 1 === index
-                  ? mCls("nav-item-active_near")
+                  ? mCls("nav-item_active_near")
                   : ""
               )}
               onMouseEnter={() => setHoverIndex(index)}
