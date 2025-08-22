@@ -1,41 +1,15 @@
 "use client";
 
-import Cookies from "js-cookie";
-import { updateDomTheme } from "@/utils/themeControl";
-import { useCallback, useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
+import useCookieTheme from "@/hooks/useCookieTheme";
 
 function ThemeSwitch({ initTheme }: { initTheme: "dark" | "light" }) {
-  const [theme, setTheme] = useState<"dark" | "light">(initTheme);
-
-  /**
-   * 修改主题样式 */
-  const themeChange = useCallback(() => {
-    const targetTheme = theme === "light" ? "dark" : "light";
-    setTheme(targetTheme);
-  }, [theme]);
-
-  useEffect(() => {
-    const currentTheme = Cookies.get("theme");
-
-    if (!currentTheme) {
-      const isSystemDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      const targetTheme = isSystemDark ? "dark" : "light";
-      setTheme(targetTheme);
-    }
-  }, []);
-
-  useEffect(() => {
-    Cookies.set("theme", theme);
-    updateDomTheme(theme);
-  }, [theme]);
+  const { theme, setTheme } = useCookieTheme(initTheme);
 
   return (
     <div className="absolute bottom-15 right-0 z-50 overflow-hidden p-2 pr-0 ">
       <div
-        onClick={themeChange}
+        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
         className="p-2 shadow-normal pr-1 rounded-l-full flex justify-center items-center bg-primary-bg text-primary-content translate-x-[40%] group hover:translate-x-0 transition-all duration-300 cursor-pointer"
       >
         {/* 导致了 icon 闪烁 */}

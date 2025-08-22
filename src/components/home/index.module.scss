@@ -1,3 +1,9 @@
 .xx-home {
-  @apply w-[100px] h-[200px] bg-[#409eff];
+  @apply w-full;
+}
+
+.xx-home-section {
+  @apply w-full;
+  padding: 20px;
+  color: var(--color-primary-content);
 }

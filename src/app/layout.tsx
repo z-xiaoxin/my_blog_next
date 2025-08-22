@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import ThemeSwitch from "@/components/layout/ThemeSwitch";
-import { cookies } from "next/headers";
+import GetReqHeader from "@/components/layout/GetReqHeader";
+import { WebVitals } from "./_components/web-vitals";
+import getServerCookieTheme from "@/utils/getServerCookieTheme";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,10 +25,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const theme = cookieStore.get("theme") as
-    | { name: "theme"; value: "dark" | "light" }
-    | undefined;
+  const { theme } = await getServerCookieTheme();
 
   return (
     <html lang="en">
@@ -36,7 +34,8 @@ export default async function RootLayout({
           geistMono.variable
         } antialiased relative ${theme?.value === "dark" ? "theme-dark" : ""}`}
       >
-        <ThemeSwitch initTheme={theme?.value ?? "light"} />
+        <WebVitals />
+        <GetReqHeader />
         {children}
       </body>
     </html>

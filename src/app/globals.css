@@ -7,6 +7,7 @@ html {
 :root {
   --primary-bg: #ffffff;
   --primary-content: #171717;
+  --primary-color: #409eff;
 }
 
 /* @theme inline {
@@ -32,6 +33,7 @@ html {
   --color-primary-bg: var(--primary-bg);
   --color-primary-content: var(--primary-content);
   --shadow-normal: 0 0 5px 1px #66666666;
+  --color-primary-color: var(--primary-color);
 }
 
 body {

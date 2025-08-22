@@ -1,5 +1,7 @@
 import BlogIndex from "@/components/blog/Index";
 
-export default function BlogMain() {
+function BlogPage() {
   return <BlogIndex />;
 }
+
+export default BlogPage;
