@@ -4,7 +4,7 @@
 FROM node:22-alpine AS builder
 
 # 安装必要依赖
-RUN apk add --no-cache libc6-compat python3 make g++
+# RUN apk add --no-cache libc6-compat python3 make g++
 
 WORKDIR /app
 
@@ -30,7 +30,7 @@ FROM node:22-alpine AS runner
 
 WORKDIR /app
 
-RUN apk add --no-cache libc6-compat
+# RUN apk add --no-cache libc6-compat
 
 # 启用 corepack 并激活 pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
