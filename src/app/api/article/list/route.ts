@@ -3,7 +3,7 @@ import type {
   IArticleDetail,
   IArticleListReqBody,
 } from "@/api/article/interface";
-import articleCol from "@/api/article/mongoCol";
+import { getArticleCol } from "@/api/article/mongoCol";
 
 export async function POST(request: Request) {
   const body = (await request.json()) as IArticleListReqBody;
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   const titleMatch = { $match: { title: { $regex: title, $options: "i" } } };
 
   try {
-    const articleColIns = await articleCol;
+    const articleColIns = await getArticleCol();
     const result = await articleColIns
       .aggregate([
         {

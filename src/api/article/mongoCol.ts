@@ -1,10 +1,13 @@
 import clientPromise from "@/lib/mongodb";
+import { Collection } from "mongodb";
 
-console.log("123");
+let articleCol: Collection<Document>;
 
-const client = await clientPromise;
-const db = client.db("xx_blog");
-
-const articleCol = db.collection("article");
-
-export default articleCol;
+export const getArticleCol = async () => {
+  if (!articleCol) {
+    const client = await clientPromise;
+    const db = client.db("xx_blog");
+    articleCol = db.collection("article");
+  }
+  return articleCol;
+};

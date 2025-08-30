@@ -1,4 +1,4 @@
-import articleCol from "@/api/article/mongoCol";
+import { getArticleCol } from "@/api/article/mongoCol";
 
 // import clientPromise from "@/lib/mongodb";
 export const dynamic = "force-static";
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   try {
     // const client = await clientPromise;
     // const db = client.db("xx_blog");
-    const articleColIns = await articleCol;
+    const articleColIns = await getArticleCol();
 
     const articles = await articleColIns
       .find({ id: body.article_id })
