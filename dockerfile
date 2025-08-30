@@ -3,21 +3,24 @@
 # ======================
 FROM node:22-alpine AS builder
 
-# 设置工作目录
+# 安装必要依赖
+RUN apk add --no-cache libc6-compat python3 make g++
+
 WORKDIR /app
 
 # 复制依赖文件
 COPY package.json pnpm-lock.yaml ./
 
+# 启用 corepack 并激活 pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# 安装依赖（可根据你用的包管理器切换）
+# 安装依赖
 RUN pnpm install --frozen-lockfile
 
-# 复制所有源码
+# 复制源码
 COPY . .
 
-# 构建 Next.js 应用
+# 构建 Next.js
 RUN pnpm build
 
 # ======================
@@ -27,32 +30,20 @@ FROM node:22-alpine AS runner
 
 WORKDIR /app
 
-# 设置 NODE_ENV
-ENV NODE_ENV production
+RUN apk add --no-cache libc6-compat
 
-# 复制 package.json 方便后续分析
-COPY package.json ./
-
+# 启用 corepack 并激活 pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# 只安装生产依赖
-# RUN pnpm install --omit=dev
+ENV NODE_ENV production
 
-# 从 builder 阶段复制构建后的文件
-# COPY --from=builder /app/.next ./.next
-# COPY --from=builder /app/public ./public
-
-# 如果有 next.config.js，需要复制
-# COPY --from=builder /app/next.config.js ./
-
+# 只复制生产所需文件
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/next.config.ts ./next.config.ts
+COPY --from=builder /app/next.config.js ./next.config.js
 
-# 暴露端口
 EXPOSE 3000
 
-# 启动 Next.js
 CMD ["pnpm", "start"]
