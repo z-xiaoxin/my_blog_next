@@ -9,7 +9,7 @@ import {
 // import mapSearchStyle from "./mapSearch.module.scss";
 import "./mapSearch.scss";
 
-import { clickEventStop } from "@/utils/hander";
+import { eventStop } from "@/utils/handle";
 import classNames from "classnames";
 // import classNamesBind from "classnames/bind";
 import { Icon } from "@iconify/react";
@@ -183,7 +183,7 @@ function MapSearch({
         <div className="w-full h-full overflow-hidden relative">
           <div
             onClick={(e) => {
-              clickEventStop(e);
+              eventStop(e);
               setSearchBarShow(true);
               searchRef.current?.focus();
             }}
@@ -205,7 +205,7 @@ function MapSearch({
           >
             {/* 搜索框 开始 */}
             <div
-              onClick={clickEventStop}
+              onClick={eventStop}
               className="w-full flex items-center justify-center pointer-events-auto bg-primary-bg rounded-md p-2 pl-3"
             >
               <div className="flex-grow">
@@ -230,7 +230,7 @@ function MapSearch({
             {/* 搜索框 结束 */}
 
             <div
-              onClick={clickEventStop}
+              onClick={eventStop}
               className="pointer-events-auto w-full bg-primary-bg rounded-md p-2 mt-2"
             >
               {/* {JSON.stringify(searchResult)} */}

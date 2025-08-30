@@ -9,10 +9,19 @@
   transition: all 0.3s, transform 0.1s;
   cursor: pointer;
 
+  @media screen and (max-width: 768px) {
+    padding: 10px;
+  }
+
   .nav-item-icon {
     width: 40px;
     height: 40px;
     transition: all 0.3s;
+
+    @media screen and (max-width: 768px) {
+      width: 30px;
+      height: 30px;
+    }
   }
 
   &:active {
@@ -22,6 +31,10 @@
 
 .nav-item_active {
   padding: 18px;
+
+  @media screen and (max-width: 768px) {
+    padding: 16px;
+  }
   .nav-item-icon {
     scale: 1.2;
   }
@@ -29,6 +42,10 @@
 
 .nav-item_active_near {
   padding: 14px;
+
+  @media screen and (max-width: 768px) {
+    padding: 12px;
+  }
 
   .nav-item-icon {
     scale: 1.1;

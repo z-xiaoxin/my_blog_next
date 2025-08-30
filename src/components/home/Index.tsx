@@ -2,7 +2,7 @@
 
 import classname from "classnames/bind";
 import IndexStyle from "./index.module.scss";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getTargetWord } from "@/utils/effects";
 
 const indexCls = classname.bind(IndexStyle);
@@ -16,6 +16,10 @@ function HomeIndex() {
       nameAnimationRunningStatus.current = getTargetWord(name, setName);
     }
   };
+
+  useEffect(() => {
+    console.log("home index loaded");
+  }, []);
 
   return (
     <div className={indexCls("xx-home")}>

@@ -48,3 +48,34 @@
     animation: outSideRotateChild 1s ease-out forwards;
   }
 }
+
+.article-list {
+  @apply flex flex-col mx-auto w-full max-w-[1200px] flex-grow;
+
+  .article-list-item {
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+    font-size: 18px;
+    padding: 8px 20px;
+    border-radius: var(--radius-md);
+    @apply w-full transition-all relative;
+
+    @media screen and (max-width: 768px) {
+      font-size: 16px;
+    }
+
+    &:hover {
+      color: var(--primary-color);
+      background-color: rgba(var(--primary-color-v), 0.1);
+    }
+
+    &::after {
+      content: "";
+      @apply h-[1px] absolute;
+      width: calc(100% - 16px);
+      bottom: 0;
+      left: 8px;
+      background-color: var(--primary-border);
+    }
+  }
+}

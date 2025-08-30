@@ -4,6 +4,8 @@ import "./globals.css";
 import GetReqHeader from "@/components/layout/GetReqHeader";
 import { WebVitals } from "./_components/web-vitals";
 import getServerCookieTheme from "@/utils/getServerCookieTheme";
+import ContentProgressBar from "@/components/layout/ContentProgressBar";
+import QueryProvider from "./providers/query-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,15 +30,18 @@ export default async function RootLayout({
   const { theme } = await getServerCookieTheme();
 
   return (
-    <html lang="en">
+    <html lang="zh-CN">
       <body
         className={`${geistSans.variable} ${
           geistMono.variable
         } antialiased relative ${theme?.value === "dark" ? "theme-dark" : ""}`}
       >
-        <WebVitals />
-        <GetReqHeader />
-        {children}
+        <QueryProvider>
+          <ContentProgressBar />
+          <WebVitals />
+          <GetReqHeader />
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );

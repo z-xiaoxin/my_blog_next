@@ -1,0 +1,17 @@
+#xx-article-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    position: relative;
+    z-index: 10;
+    .heading-marker {
+      position: absolute;
+      content: "";
+      left: 0;
+      top: -20px;
+    }
+  }
+}

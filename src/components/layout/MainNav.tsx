@@ -36,10 +36,14 @@ function MainNav() {
 
   return (
     <div className={cls("w-full flex")}>
-      <nav className={cls("flex justify-between items-center p-4 m-auto")}>
+      <nav
+        className={cls("flex justify-between items-center md:p-4 p-3 m-auto")}
+      >
         <div
           onMouseLeave={() => setHoverIndex(activeIndex)}
-          className={cls("flex items-center gap-x-4 h-[76px]")}
+          className={cls(
+            "flex items-center md:gap-x-4 gap-x-3 md:h-[76px] h-[62px]"
+          )}
         >
           {navList.map((item, index) => (
             <Link
@@ -58,7 +62,7 @@ function MainNav() {
               onClick={() => item.name !== "github" && setActiveIndex(index)}
             >
               <div className={cls(mCls("nav-item-icon"))}>
-                <Icon icon={item.icon ?? ""} width={40} height={40} />
+                <Icon icon={item.icon ?? ""} className="w-full h-full" />
               </div>
             </Link>
           ))}

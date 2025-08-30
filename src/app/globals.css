@@ -1,13 +1,40 @@
 @import "tailwindcss";
 
+@config "../../tailwind.config.ts";
+
+/* @plugin "@tailwindcss/typography"; */
+@import "highlight.js/styles/vs2015.css";
+
+/* 调整 highlightjs 中 hljs 背景色 */
+.hljs {
+  color: revert;
+  background: revert;
+}
+
+pre code.hljs {
+  padding: revert;
+}
+
 html {
   height: 100%;
 }
 
 :root {
   --primary-bg: #ffffff;
+  --secondary-bg: #f1f1f1;
+
+  --primary-border: #e5e7eb;
+  --secondary-border: #d1d5db;
+
   --primary-content: #171717;
-  --primary-color: #409eff;
+  --secondary-content: #444;
+  --primary-color: #7c4dff;
+  --primary-color-v: 124, 77, 255;
+
+  --secondary-color: #1f2937;
+  --third-color: #00fff7;
+
+  --md-block-bg: #1f2937;
 }
 
 /* @theme inline {
@@ -25,15 +52,27 @@ html {
 } */
 
 .theme-dark {
-  --primary-bg: #0a0a0a;
-  --primary-content: #ededed;
+  --primary-bg: #0f0f1a;
+  --secondary-bg: #2e2e2e;
+
+  --primary-border: #222;
+  --secondary-border: #444;
+
+  --primary-content: #0ff;
+  --secondary-content: #00fff7;
 }
 
 @theme inline {
   --color-primary-bg: var(--primary-bg);
   --color-primary-content: var(--primary-content);
+
+  --color-primary-border: var(--primary-border);
+  --color-secondary-border: var(--secondary-border);
+
   --shadow-normal: 0 0 5px 1px #66666666;
   --color-primary-color: var(--primary-color);
+  --color-primary-color-10percent: rgba(var(--primary-color-v), 0.1);
+  --color-secondary-bg: var(--secondary-bg);
 }
 
 body {
