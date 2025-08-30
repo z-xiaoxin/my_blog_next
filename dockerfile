@@ -9,6 +9,8 @@ WORKDIR /app
 # 复制依赖文件
 COPY package.json package-lock.json* pnpm-lock.yaml* yarn.lock* ./
 
+RUN corepack enable && corepack prepare pnpm@latest --activate && pnpm -v
+
 # 安装依赖（可根据你用的包管理器切换）
 RUN pnpm install
 
