@@ -9,6 +9,7 @@ services:
     environment:
       - NODE_ENV=production
       - MONGO_URL=mongodb://admin:123456@mongo-db:27017
+      - NEXT_MONGO_DB_URI=mongodb://admin:123456@blog-mongo-db:27017
     depends_on:
       - mongo-db
 
