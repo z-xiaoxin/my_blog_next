@@ -9,7 +9,6 @@ export async function POST(request: Request) {
   const body = (await request.json()) as IArticleListReqBody;
   console.log("body", body);
   const { title = "", page = 1, page_size = 20 } = body;
-  console.log("title", title);
 
   const titleMatch = { $match: { title: { $regex: title, $options: "i" } } };
 

@@ -5,6 +5,7 @@ import { permanentRedirect } from "next/navigation";
 import indexCss from "./index.module.scss";
 import clsBind from "classnames/bind";
 import ArticleSearchInput from "./ArticleSearchInput";
+// import WaveUp from "../common/WaveUp";
 
 const indexStyle = clsBind.bind(indexCss);
 
@@ -70,6 +71,8 @@ async function ArticlePageIndex({
           )
         )}
       </div>
+
+      {/* <WaveUp /> */}
     </div>
   );
 }

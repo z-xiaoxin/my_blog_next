@@ -24,7 +24,7 @@ function HomeIndex() {
   return (
     <div className={indexCls("xx-home")}>
       <div className={indexCls("xx-home-section")}>
-        <h1 className="font-bold text-[50px] text-center leading-8 mb-2">
+        <h1 className="font-bold md:text-[50px] text-[30px] text-center md:leading-18 leading-10 mb-2">
           这里是{" "}
           <span
             onMouseEnter={onMouseEnterName}

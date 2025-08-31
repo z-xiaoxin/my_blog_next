@@ -1,0 +1,23 @@
+@keyframes upAnimation {
+  0% {
+    scale: 1;
+    transform: translateY(0);
+  }
+  70% {
+    scale: 0.4;
+    opacity: 0.1;
+  }
+  100% {
+    scale: 0.4;
+    opacity: 0;
+    transform: translateY(-1000px);
+  }
+}
+
+.waveBoxUp {
+  animation: upAnimation 3s forwards;
+}
+
+.waveBox {
+  filter: blur(10px) contrast(15);
+}

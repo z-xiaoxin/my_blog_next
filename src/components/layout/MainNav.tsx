@@ -35,7 +35,13 @@ function MainNav() {
   const [activeIndex, setActiveIndex] = useState(currentNavIndex);
 
   return (
-    <div className={cls("w-full flex")}>
+    <div className={cls("w-full flex relative")}>
+      {/* <div
+        className={cls(
+          mCls("spider"),
+          "w-full h-full absolute top-0 left-0 z-[-1]"
+        )}
+      ></div> */}
       <nav
         className={cls("flex justify-between items-center md:p-4 p-3 m-auto")}
       >

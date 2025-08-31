@@ -51,3 +51,11 @@
     scale: 1.1;
   }
 }
+
+.spider {
+  background-image: radial-gradient(transparent 1px, #111 1px);
+  background-size: 4px 4px;
+  /* box-shadow: 0 0 5px 10px #ffffff; */
+  border-bottom: 1px solid #111;
+  box-shadow: 0 0 1px 1px #111;
+}
