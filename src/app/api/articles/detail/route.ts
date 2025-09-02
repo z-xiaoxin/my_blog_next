@@ -1,4 +1,5 @@
 import { getArticleCol } from "@/api/article/mongoCol";
+import { apiResponse } from "@/api/common/apiHandle";
 
 // import clientPromise from "@/lib/mongodb";
 export const dynamic = "force-static";
@@ -17,23 +18,15 @@ export async function POST(request: Request) {
     });
 
   try {
-    // const client = await clientPromise;
-    // const db = client.db("xx_blog");
     const articleColIns = await getArticleCol();
 
     const articles = await articleColIns
       .find({ id: body.article_id })
       .toArray();
 
-    if (articles.length)
-      return Response.json({ status: 0, data: articles[0], message: "ok" });
-    else
-      return Response.json({
-        status: 102,
-        data: {},
-        message: "article not found",
-      });
+    if (articles.length) return apiResponse("SUCCESS", { data: articles[0] });
+    else return apiResponse("NOT_FOUND");
   } catch (error) {
-    return Response.json({ status: 101, data: [], message: "fail" });
+    return apiResponse("FAIL");
   }
 }

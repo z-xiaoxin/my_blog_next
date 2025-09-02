@@ -1,4 +1,5 @@
 export interface IArticleListItem {
+  _id: string;
   id: string;
   title: string;
 }
@@ -14,5 +15,14 @@ export interface ICommonListReqBody {
 }
 
 export interface IArticleListReqBody extends ICommonListReqBody {
-  title?: string;
+  title?: undefined;
+  keyword?: string;
+}
+
+export interface IArticleUpdateReqBody extends IArticleListItem {
+  content: string;
+}
+
+export interface IArticleAddReqBody extends IArticleListItem {
+  content: string;
 }

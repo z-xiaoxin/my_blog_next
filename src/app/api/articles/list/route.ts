@@ -4,13 +4,13 @@ import type {
   IArticleListReqBody,
 } from "@/api/article/interface";
 import { getArticleCol } from "@/api/article/mongoCol";
+import { apiResponse } from "@/api/common/apiHandle";
 
 export async function POST(request: Request) {
   const body = (await request.json()) as IArticleListReqBody;
-  console.log("body", body);
-  const { title = "", page = 1, page_size = 20 } = body;
+  const { keyword = "", page = 1, page_size = 20 } = body;
 
-  const titleMatch = { $match: { title: { $regex: title, $options: "i" } } };
+  const titleMatch = { $match: { title: { $regex: keyword, $options: "i" } } };
 
   try {
     const articleColIns = await getArticleCol();
@@ -32,15 +32,10 @@ export async function POST(request: Request) {
     const rows: IArticleDetail[] = result[0].list;
     const total: number = result[0].total[0]?.count || 0;
 
-    if ((page - 1) * page_size >= total)
-      return Response.json({
-        status: 0,
-        data: { total: 0, rows: [] },
-        message: "ok",
-      });
-    else
-      return Response.json({ status: 0, data: { total, rows }, message: "ok" });
+    if (page > 1 && (page - 1) * page_size >= total)
+      return apiResponse("OUT_OF_RANGE");
+    else return apiResponse("SUCCESS", { data: { total, rows } });
   } catch (error) {
-    return Response.json({ status: 101, data: {}, message: "fail" });
+    return apiResponse("FAIL");
   }
 }
