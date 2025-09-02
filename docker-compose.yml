@@ -4,7 +4,6 @@ services:
   next-app:
     build: .
     volumes:
-      - .:/app
       - /home/Chris/.local/share/pnpm/store/v10
     container_name: blog-next
     ports:
