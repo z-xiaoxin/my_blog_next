@@ -3,6 +3,9 @@ version: "3.8"
 services:
   next-app:
     build: .
+    volumes:
+      - .:/app
+      - /home/Chris/.local/share/pnpm/store/v10
     container_name: blog-next
     ports:
       - "80:3000"

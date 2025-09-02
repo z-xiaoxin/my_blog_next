@@ -3,6 +3,9 @@
 # ======================
 FROM node:22-alpine AS builder
 
+# 启用 corepack 并激活 pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
 # 安装必要依赖
 # RUN apk add --no-cache libc6-compat python3 make g++
 
@@ -11,14 +14,13 @@ WORKDIR /app
 # 复制依赖文件
 COPY package.json pnpm-lock.yaml ./
 
-# 启用 corepack 并激活 pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
-
-# 安装依赖
-RUN pnpm install --frozen-lockfile
+RUN pnpm fetch
 
 # 复制源码
 COPY . .
+
+# 安装依赖
+RUN pnpm install --frozen-lockfile --offline
 
 # 构建 Next.js
 RUN pnpm build
