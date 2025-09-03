@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { Collection, MongoClient } from "mongodb";
 
 const uri = process.env.NEXT_MONGO_DB_URI as string;
 const options = {};
@@ -26,3 +26,21 @@ if (process.env.NODE_ENV === "development") {
 }
 
 export default clientPromise;
+
+export const getDbCollection = (params: {
+  dbName?: string;
+  colName: string;
+}) => {
+  const { dbName = "xx_blog", colName } = params;
+
+  let colInstance: Collection<Document>;
+
+  return async () => {
+    if (!colInstance) {
+      const client = await clientPromise;
+      const db = client.db(dbName);
+      colInstance = db.collection(colName);
+    }
+    return colInstance;
+  };
+};

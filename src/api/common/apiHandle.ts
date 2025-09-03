@@ -54,5 +54,3 @@ export const apiResponse = <T extends EPartOfType | "CUSTOM">(
     data: data ?? {},
   });
 };
-
-apiResponse("SUCCESS");

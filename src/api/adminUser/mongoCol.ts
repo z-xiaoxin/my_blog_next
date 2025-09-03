@@ -1,13 +1,17 @@
-import clientPromise from "@/lib/mongodb";
-import { Collection } from "mongodb";
+// import clientPromise from "@/lib/mongodb";
+// import { Collection } from "mongodb";
 
-let adminUserCol: Collection<Document>;
+import { getDbCollection } from "@/lib/mongodb";
 
-export const getAdminUserCol = async () => {
-  if (!adminUserCol) {
-    const client = await clientPromise;
-    const db = client.db("xx_blog");
-    adminUserCol = db.collection("admin_user");
-  }
-  return adminUserCol;
-};
+// let adminUserCol: Collection<Document>;
+
+// export const getAdminUserCol = async () => {
+//   if (!adminUserCol) {
+//     const client = await clientPromise;
+//     const db = client.db("xx_blog");
+//     adminUserCol = db.collection("admin_user");
+//   }
+//   return adminUserCol;
+// };
+
+export const getAdminUserCol = getDbCollection({ colName: "admin_user" });
