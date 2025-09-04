@@ -12,7 +12,7 @@ import AdminCommonDataDash, {
   IAdminCommonDataDashProps,
 } from "../common/dataDash";
 import { showAdminModal } from "@/utils/showAdminModal";
-import EditArticle from "./compoents/EditArticle";
+import EditArticle from "./components/EditArticle";
 
 function AdminArticleList() {
   const [queryForm, setQueryForm] = useState<IArticleListReqBody>({
