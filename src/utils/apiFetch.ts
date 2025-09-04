@@ -5,11 +5,20 @@ import { ADMIN_USER_INFO } from "@/consts/storage";
 
 export const apiFetch = async <T extends object = object>(
   url: string,
+  body: object,
   options?: RequestInit
 ): Promise<T> => {
   const isClient = process.title === "browser";
   if (!isClient && url && url.startsWith("/"))
     url = process.env.NEXT_PUBLIC_SITE_URL + url;
+
+  const { method = "POST" } = options || {};
+  if (method === "GET") {
+    const queryStr = Object.entries(body)
+      .map(([key, value]) => `${key}=${value}`)
+      .join("&");
+    if (queryStr) url += `?${queryStr}`;
+  }
 
   const commonHeaders: HeadersInit = {};
   if (isClient) {
@@ -20,6 +29,7 @@ export const apiFetch = async <T extends object = object>(
   try {
     const fetchResult = await fetch(url, {
       method: "POST",
+      body: method === "GET" ? undefined : JSON.stringify(body),
       ...options,
       headers: { ...commonHeaders, ...options?.headers },
     });
@@ -38,6 +48,8 @@ export const apiFetch = async <T extends object = object>(
 
     return Promise.resolve<T>(dataResult.data);
   } catch (error) {
+    console.log("error", error);
+
     return Promise.reject({
       status: -1,
       messageCode: "FETCH_ERROR",

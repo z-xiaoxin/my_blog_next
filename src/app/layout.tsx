@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-// import GetReqHeader from "@/components/layout/GetReqHeader";
 import { WebVitals } from "./_components/web-vitals";
 import getServerCookieTheme from "@/utils/getServerCookieTheme";
 import ContentProgressBar from "@/components/layout/ContentProgressBar";
 import QueryProvider from "./providers/query-provider";
-import { collectApi } from "@/api/adminCollect";
-import { NextRequest } from "next/server";
+import { collectApi } from "@/api/collect";
 import { headers } from "next/headers";
+import { headerGet } from "@/utils/headerOperations";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,19 +32,18 @@ export default async function RootLayout({
   const { theme } = await getServerCookieTheme();
 
   try {
-    const headersList = await headers();
-    const ip =
-      (headersList.get("x-forwarded-for") || headersList.get("x-real-ip")) ??
-      "";
-    const ua = headersList.get("user-agent") ?? "";
-
-    console.log("ip:", ip, "ua:", ua);
-
-    collectApi.addCol({
-      event: "page_view",
-      // ip,
-      // ua,
-    });
+    const headersIns = await headers();
+    const ip = await headerGet.getIp(headersIns);
+    const ua = headersIns.get("user-agent") ?? "";
+    const url = `${headersIns.get("x-href") || ""}`;
+    if (!url.includes("/dash/")) {
+      collectApi.addCol({
+        event: "page_view",
+        url,
+        ip,
+        ua,
+      });
+    }
   } catch (error) {}
 
   return (

@@ -2,6 +2,7 @@
 // import { Collection } from "mongodb";
 
 import { getDbCollection } from "@/lib/mongodb";
+import { IAdminUserListItem } from "./interface";
 
 // let adminUserCol: Collection<Document>;
 
@@ -14,4 +15,6 @@ import { getDbCollection } from "@/lib/mongodb";
 //   return adminUserCol;
 // };
 
-export const getAdminUserCol = getDbCollection({ colName: "admin_user" });
+export const getAdminUserCol = getDbCollection<IAdminUserListItem>({
+  colName: "admin_user",
+});

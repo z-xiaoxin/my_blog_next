@@ -6,9 +6,7 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 
 const getArticleDetail = cache((article_id: string) => {
-  return apiFetch<IArticleDetail>("/api/articles/detail", {
-    body: JSON.stringify({ article_id }),
-  });
+  return apiFetch<IArticleDetail>("/api/articles/detail", { article_id });
 });
 
 async function ArticleDetailPage({

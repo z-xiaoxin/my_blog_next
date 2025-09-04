@@ -20,3 +20,13 @@ export interface ICollectItem {
 }
 
 export type IAddCollectReqBody = Omit<ICollectItem, "_id">;
+
+export interface ICollectListReqBody {
+  event?: string;
+  start_at?: number;
+  end_at?: number;
+  local?: string;
+  ua?: string;
+  page: number;
+  page_size: number;
+}

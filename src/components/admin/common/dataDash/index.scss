@@ -1,0 +1,11 @@
+.dash-common-tabs {
+  @apply flex flex-col;
+
+  .arco-tabs-content-inner {
+    @apply h-full;
+
+    .arco-tabs-pane {
+      @apply h-full;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { IconApps } from "@arco-design/web-react/icon";
+import { IconApps, IconFile } from "@arco-design/web-react/icon";
 import { createBrowserRouter } from "react-router-dom";
 
 export const adminMenuList = [
@@ -19,6 +19,19 @@ export const adminMenuList = [
       //   title: "文章详情",
       //   Component: lazy(() => import("@/components/admin/article/Detail")),
       // },
+    ],
+  },
+  {
+    path: "/analytics",
+    title: "数据统计",
+    icon: <IconFile />,
+    Component: lazy(() => import("@/components/admin/layout/index")),
+    children: [
+      {
+        path: "visit",
+        title: "访问统计",
+        Component: lazy(() => import("@/components/admin/collection/visit")),
+      },
     ],
   },
 ];

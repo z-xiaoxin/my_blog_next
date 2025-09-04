@@ -25,10 +25,6 @@ function DashLoginPage() {
     }
   }, [loginForm]);
 
-  // useEffect(() => {
-  //   redirect("/dash/article/list");
-  // }, []);
-
   return (
     <div className="w-full h-full flex-grow flex justify-center items-center">
       <div className="flex justify-center items-center">

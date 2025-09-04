@@ -1,6 +1,7 @@
-import { IAddCollectReqBody } from "@/api/adminCollect/interface";
-import { getCollectCol } from "@/api/adminCollect/mongoCol";
+import { IAddCollectReqBody } from "@/api/collect/interface";
+import { getCollectCol } from "@/api/collect/mongoCol";
 import { apiResponse } from "@/api/common/apiHandle";
+import { headerGet } from "@/utils/headerOperations";
 import { logger } from "@/utils/logger";
 import { NextRequest } from "next/server";
 
@@ -9,12 +10,10 @@ export async function POST(request: NextRequest) {
 
   try {
     const collectCol = await getCollectCol();
-    const headers = request.headers;
-    const ip = headers.get("x-forwarded-for") || headers.get("x-real-ip");
-    const ua = headers.get("user-agent");
+
     const colContent: IAddCollectReqBody = {
       event: body.event,
-      ts: body.ts,
+      ts: body.ts || Date.now(),
       projectId: body.projectId,
       sessionId: body.sessionId,
       visitorId: body.visitorId,
@@ -24,8 +23,8 @@ export async function POST(request: NextRequest) {
       title: body.title,
       screen: body.screen,
       locale: body.locale,
-      ua: (body.ua || ua) ?? "",
-      ip: (body.ip || ip) ?? "",
+      ua: (body.ua || request.headers.get("user-agent")) ?? "",
+      ip: (body.ip || (await headerGet.getIp(request.headers))) ?? "",
       utm: body.utm ?? { source: "", medium: "", campaign: "" },
       props: body.props ?? { btnId: "", plan: "" },
       v: body.v ?? 1,

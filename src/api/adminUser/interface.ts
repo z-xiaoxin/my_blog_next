@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 export interface IAdminLoginReqBody {
   uid: string;
   pwd: string;
@@ -13,7 +15,7 @@ export interface IAdminUserListReqBody {
 }
 
 export interface IAdminUserListItem {
-  _id: string;
+  _id?: ObjectId;
   uid: string;
   username: string;
   avatar: string;
@@ -26,4 +28,8 @@ export interface IAddAdminUserReqBody {
   pwd: string;
   avatar: string;
   role: number[];
+}
+
+export interface IAdminUserDetail extends IAdminUserListItem {
+  pwd: string;
 }

@@ -3,7 +3,11 @@ import { verifyToken } from "./utils/jwtHandle";
 import { apiResponse } from "./api/common/apiHandle";
 // import { verifyToken } from "@/lib/auth";
 
-const needAuthorizePaths = ["/api/v1/articles", "/api/v1/admin/users"];
+const needAuthorizePaths = [
+  "/api/v1/articles",
+  "/api/v1/admin/users",
+  "/api/v1/admin/collect",
+];
 
 export async function middleware(req: NextRequest) {
   const url = req.nextUrl;
@@ -35,6 +39,10 @@ export async function middleware(req: NextRequest) {
       }
       return NextResponse.next();
     }
+  } else {
+    const response = NextResponse.next();
+    response.headers.set("x-href", url.href);
+    return response;
   }
 
   // 如果访问 dash，要求管理员权限

@@ -57,6 +57,7 @@ export const formateTimestamp = (
   return new Date(timestamp * 1000).toLocaleDateString("zh", options);
 };
 
+/** 防抖 */
 export const throttle = <T extends (...args: any) => any>(
   fn: T,
   delay: number = 50
@@ -72,6 +73,7 @@ export const throttle = <T extends (...args: any) => any>(
   return func as T;
 };
 
+/** 节流 */
 export const debounce = (fn: () => void, delay: number = 50) => {
   let timer: NodeJS.Timeout | null = null;
   return () => {

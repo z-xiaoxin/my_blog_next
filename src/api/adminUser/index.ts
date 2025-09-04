@@ -7,8 +7,8 @@ export const adminUserApi = {
     const encodePwd = cryptoJS.MD5(pwd).toString();
 
     return apiFetch<IAdminLoginRes>("/api/v1/admin/login", {
-      method: "POST",
-      body: JSON.stringify({ uid, pwd: encodePwd }),
+      uid,
+      pwd: encodePwd,
     });
   },
 };

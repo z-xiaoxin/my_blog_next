@@ -27,19 +27,19 @@ if (process.env.NODE_ENV === "development") {
 
 export default clientPromise;
 
-export const getDbCollection = (params: {
+export const getDbCollection = <T extends object>(params: {
   dbName?: string;
   colName: string;
 }) => {
   const { dbName = "xx_blog", colName } = params;
 
-  let colInstance: Collection<Document>;
+  let colInstance: Collection<T>;
 
   return async () => {
     if (!colInstance) {
       const client = await clientPromise;
       const db = client.db(dbName);
-      colInstance = db.collection(colName);
+      colInstance = db.collection<T>(colName);
     }
     return colInstance;
   };

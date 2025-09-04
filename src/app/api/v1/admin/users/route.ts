@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
 
   if (!body.uid || !body.pwd || !body.username) return apiResponse("FAIL");
 
-  const userInfo = {
+  const userInfo: IAddAdminUserReqBody = {
     username: body.username,
     pwd: body.pwd,
     avatar: body.avatar ?? "",

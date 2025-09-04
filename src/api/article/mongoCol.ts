@@ -1,4 +1,5 @@
 import { getDbCollection } from "@/lib/mongodb";
+import { IArticleDetail } from "./interface";
 // import { Collection } from "mongodb";
 
 // let articleCol: Collection<Document>;
@@ -12,4 +13,6 @@ import { getDbCollection } from "@/lib/mongodb";
 //   return articleCol;
 // };
 
-export const getArticleCol = getDbCollection({ colName: "article" });
+export const getArticleCol = getDbCollection<IArticleDetail>({
+  colName: "article",
+});
