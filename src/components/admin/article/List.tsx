@@ -11,12 +11,14 @@ import { EFormItemType } from "../common/interface";
 import AdminCommonDataDash, {
   IAdminCommonDataDashProps,
 } from "../common/dataDash";
+import { showAdminModal } from "@/utils/showAdminModal";
+import EditArticle from "./compoents/EditArticle";
 
 function AdminArticleList() {
   const [queryForm, setQueryForm] = useState<IArticleListReqBody>({
     keyword: "",
     page: 1,
-    page_size: 10,
+    page_size: 15,
   });
   const [articleInfo, setArticleInfo] = useState<IResRows<IArticleListItem>>({
     rows: [],
@@ -42,6 +44,15 @@ function AdminArticleList() {
         title: "标题",
         dataIndex: "title",
         width: 200,
+        render: (value: string, item) => (
+          <a
+            href={`/article/${item.id}`}
+            target="_blank"
+            className="truncate hover:text-primary-color transition-all"
+          >
+            {value}
+          </a>
+        ),
       },
       {
         title: "内容",
@@ -73,8 +84,22 @@ function AdminArticleList() {
               type="primary"
               shape="circle"
               icon={<IconEdit />}
-              onClick={() => {
-                console.log(item);
+              onClick={async () => {
+                try {
+                  const articleInfo = await dashArticleApi.getDetail(item._id);
+                  showAdminModal({
+                    title: "编辑文章",
+                    content: EditArticle,
+                    footer: () => <></>,
+                    props: {
+                      articleInfo,
+                      onSuccess: () => refreshData(queryForm),
+                    },
+                  });
+                  console.log("用户点击了确定，结果：");
+                } catch (err) {
+                  console.log("用户取消，原因：", err);
+                }
               }}
             ></Button>
 

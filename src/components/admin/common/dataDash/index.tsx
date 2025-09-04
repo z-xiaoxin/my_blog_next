@@ -75,7 +75,6 @@ function AdminCommonDataDash({ dashConfig }: IAdminCommonDataDashProps) {
           activeTab.contentComponent
         ) : (
           <div className="w-full flex-grow flex flex-col items-center pt-3 overflow-hidden">
-            {activeTab.paginationConfig?.pageSize ?? "--"}
             <AdminCommonSearchBar {...activeTab.searchBarConfig} />
 
             <div
@@ -83,11 +82,10 @@ function AdminCommonDataDash({ dashConfig }: IAdminCommonDataDashProps) {
               className="w-full flex-grow overflow-hidden"
             >
               <Table
+                rowKey="_id"
                 pagination={false}
                 tableLayoutFixed={true}
-                scroll={{
-                  y: scrollYHeight,
-                }}
+                scroll={{ y: scrollYHeight }}
                 {...activeTab.tableConfig}
               />
             </div>

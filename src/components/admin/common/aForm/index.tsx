@@ -39,6 +39,10 @@ function AdminCommonAForm({
       {formList.map((item) => {
         return (
           <FormItem key={item.field} label={item.label} field={item.field}>
+            {item.type === EFormItemType.Custom &&
+              item.render &&
+              item.render({ formData, setFormData, formList, formProps }, item)}
+
             {item.type === EFormItemType.Input && (
               <Input
                 {...item.props}

@@ -8,7 +8,7 @@ export const collectApi = {
     apiFetch("/api/collect", params),
 };
 
-export const adminCollectApi = {
+export const dashCollectApi = {
   getList: async (body: ICollectListReqBody) =>
     await apiFetch<IResRows<ICollectItem>>("/api/v1/admin/collect", body, {
       method: "GET",

@@ -16,6 +16,15 @@ export const dashArticleApi = {
     );
   },
 
+  getDetail: async (_id: ObjectId) =>
+    await apiFetch<IArticleListItem>(
+      "/api/v1/articles/" + _id,
+      {},
+      {
+        method: "GET",
+      }
+    ),
+
   deleteOne: async (_id: ObjectId) =>
     await apiFetch(
       "/api/v1/articles/" + _id,
@@ -24,4 +33,9 @@ export const dashArticleApi = {
         method: "DELETE",
       }
     ),
+
+  updateOne: async (_id: ObjectId, body: { title: string; content: string }) =>
+    await apiFetch("/api/v1/articles/" + _id, body, {
+      method: "PUT",
+    }),
 };

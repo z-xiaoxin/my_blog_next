@@ -9,13 +9,13 @@ import AdminCommonDataDash, {
   IAdminCommonDataDashProps,
 } from "@/components/admin/common/dataDash";
 import { ICollectItem, ICollectListReqBody } from "@/api/collect/interface";
-import { adminCollectApi } from "@/api/collect";
+import { dashCollectApi } from "@/api/collect";
 
 function CollectionVisit() {
   const [queryForm, setQueryForm] = useState<ICollectListReqBody>({
     event: "",
     page: 1,
-    page_size: 10,
+    page_size: 30,
   });
   const [collectInfo, setCollectInfo] = useState<IResRows<ICollectItem>>({
     rows: [],
@@ -25,7 +25,7 @@ function CollectionVisit() {
 
   const refreshData = useCallback((form) => {
     setTableLoading(true);
-    adminCollectApi
+    dashCollectApi
       .getList(form)
       .then((res) => {
         setCollectInfo(res);

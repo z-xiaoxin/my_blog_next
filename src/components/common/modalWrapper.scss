@@ -1,0 +1,31 @@
+@keyframes modalWrapperShow {
+  0% {
+    scale: 0.5;
+  }
+  80% {
+    scale: 1.05;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes modalWrapperHidden {
+  0% {
+    scale: 1;
+  }
+  20% {
+    scale: 1.05;
+  }
+  100% {
+    scale: 0.5;
+  }
+}
+
+.xx-modal-wrapper {
+  animation: modalWrapperShow 0.3s forwards;
+
+  &.hidden-wrapper {
+    animation: modalWrapperHidden 0.3s forwards;
+  }
+}
