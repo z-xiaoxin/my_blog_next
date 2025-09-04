@@ -145,7 +145,7 @@ function CollectionVisit() {
               },
             },
           ],
-          onSearch: handleQuery,
+          onSearch: () => handleQuery({ page: 1 }),
           onRefresh: () => refreshData(queryForm),
         },
         tableConfig: {
@@ -158,11 +158,11 @@ function CollectionVisit() {
           total: collectInfo.total,
           current: queryForm.page,
           pageSize: queryForm.page_size,
-          onChange: (page) => {
-            handleQuery({ page });
+          onChange: (page, page_size) => {
+            handleQuery({ page, page_size });
           },
           onPageSizeChange: (page_size) => {
-            handleQuery({ page_size, page: 1 });
+            setQueryForm({ ...queryForm, page_size, page: 1 });
           },
         },
       },

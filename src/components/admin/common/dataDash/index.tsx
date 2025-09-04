@@ -75,6 +75,7 @@ function AdminCommonDataDash({ dashConfig }: IAdminCommonDataDashProps) {
           activeTab.contentComponent
         ) : (
           <div className="w-full flex-grow flex flex-col items-center pt-3 overflow-hidden">
+            {activeTab.paginationConfig?.pageSize ?? "--"}
             <AdminCommonSearchBar {...activeTab.searchBarConfig} />
 
             <div

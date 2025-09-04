@@ -109,6 +109,8 @@ function AdminArticleList() {
   const handleQuery = useCallback(
     (params?: Partial<IArticleListReqBody>) => {
       const newQueryForm = { ...queryForm, ...(params ?? {}) };
+      console.log("newQueryForm", newQueryForm);
+
       if (params) setQueryForm(newQueryForm);
       refreshData(newQueryForm);
     },
@@ -136,7 +138,7 @@ function AdminArticleList() {
               },
             },
           ],
-          onSearch: handleQuery,
+          onSearch: () => handleQuery({ page: 1 }),
           onRefresh: () => refreshData(queryForm),
         },
         tableConfig: {
@@ -149,11 +151,11 @@ function AdminArticleList() {
           total: articleInfo.total,
           current: queryForm.page,
           pageSize: queryForm.page_size,
-          onChange: (page) => {
-            handleQuery({ page });
+          onChange: (page, page_size) => {
+            handleQuery({ page, page_size });
           },
           onPageSizeChange: (page_size) => {
-            handleQuery({ page_size, page: 1 });
+            setQueryForm({ ...queryForm, page_size, page: 1 });
           },
         },
       },
