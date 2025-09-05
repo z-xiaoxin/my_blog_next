@@ -12,6 +12,7 @@ services:
       - NODE_ENV=production
       - NEXT_MONGO_DB_URI=mongodb://admin:not123456@blog-mongo-db:27017
       - JWT_SECRET=4f7a2e9c1b8d3f6a5e0c9b2a7d4f8e1c3a6b9d2e5f8a1c4b7e0d3f6a9c2b5e8f1d4
+      - NODE_OPTIONS=--max-old-space-size=1434
     depends_on:
       - mongo-db
 
