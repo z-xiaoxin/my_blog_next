@@ -1,6 +1,6 @@
 services:
   next-app:
-    image: blog-next-app:latest
+    image: first-next-app:latest
     container_name: blog-next
     ports:
       - "80:3000"
